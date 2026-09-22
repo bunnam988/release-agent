@@ -11,7 +11,7 @@
     "jira-ccp": {
       "type": "remote",
       "url": "https://flow.api.de.comcast.com/orgs/ide-common/pools/jira-ccp/mcp",
-      "enabled": true,
+      "enabled": false,
       "oauth": {}
     }
   },

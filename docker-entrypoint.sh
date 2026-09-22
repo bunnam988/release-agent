@@ -19,7 +19,14 @@ gh auth setup-git 2>/dev/null || true
 # to exist, this placeholder satisfies that), per the explicit call to
 # keep local usage working while this gets tightened up before a real
 # deployment.
-current_name=$(git config --get user.name 2>/dev/null || true)
+# GIT_AUTHOR_NAME (an env var) takes precedence over `git config
+# user.name` for what a real commit actually uses -- but it does NOT
+# change what `git config --get user.name` reports, since that only
+# reads the static config value. Checking `git config --get user.name`
+# alone would keep warning even after GIT_AUTHOR_NAME is correctly set.
+# Mirror git's own actual precedence here: prefer the env var if set,
+# fall back to git config otherwise.
+current_name="${GIT_AUTHOR_NAME:-$(git config --get user.name 2>/dev/null || true)}"
 case "$current_name" in
   *"REPLACE BEFORE DEPLOY"*)
     echo "=================================================================="
